@@ -1,4 +1,4 @@
 package routers
 
-func initRouter(Router) {
-}
+//func initRouter(Router) {
+//}
