@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.4
+	github.com/go-ini/ini v1.63.2
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -18,9 +19,9 @@ require (
 )
 
 replace (
-	github.com/fabian4/Fyi_sever/pkg/setting => ~/go-application/go-gin-example/pkg/setting
-    github.com/fabian4/Fyi_sever/conf    	  => ~/go-application/go-gin-example/pkg/conf
-    github.com/fabian4/Fyi_sever/middleware  => ~/go-application/go-gin-example/middleware
-    github.com/fabian4/Fyi_sever/models 	  => ~/go-application/go-gin-example/models
-    github.com/fabian4/Fyi_sever/routers 	  => ~/go-application/go-gin-example/routers
+	github.com/fabian4/Fyi_sever/conf => ./Fyi_sever/pkg/conf
+	github.com/fabian4/Fyi_sever/middleware => ./Fyi_sever/middleware
+	github.com/fabian4/Fyi_sever/models => ./Fyi_sever/models
+	github.com/fabian4/Fyi_sever/pkg/setting => ./Fyi_sever/pkg/setting
+	github.com/fabian4/Fyi_sever/routers => ./Fyi_sever/routers
 )
