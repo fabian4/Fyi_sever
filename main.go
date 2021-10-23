@@ -1,13 +1,15 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/fabian4/Fyi_sever/routers"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080
+	routers.InitRouter(r)
+	if err := r.Run(); err != nil {
+		fmt.Printf("startup service failed, err:%v\n\n", err)
+	}
 }

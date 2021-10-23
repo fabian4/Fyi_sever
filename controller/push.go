@@ -8,7 +8,8 @@ import (
 type BaseApi struct {
 }
 
-func (baseApi *BaseApi) push(c *gin.Context) {
-	var pushService = service.PushService{}
+var pushService = service.PushService{}
+
+func (baseApi *BaseApi) Push(c *gin.Context) {
 	pushService.DoPush()
 }
