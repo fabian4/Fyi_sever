@@ -8,7 +8,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	routers.InitRouter(r)
+	routers.InitPushRouter(r)
 	if err := r.Run(); err != nil {
 		fmt.Printf("startup service failed, err:%v\n\n", err)
 	}

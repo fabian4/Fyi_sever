@@ -5,8 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var baseApi = controller.BaseApi{}
+var pushApi = controller.PushApi{}
 
-func InitRouter(r *gin.Engine) {
-	r.GET("/", baseApi.Push)
+func InitPushRouter(r *gin.Engine) {
+	r.GET("/", pushApi.Push)
 }

@@ -5,11 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type BaseApi struct {
+type PushApi struct {
 }
 
 var pushService = service.PushService{}
 
-func (baseApi *BaseApi) Push(c *gin.Context) {
+func (pushApi *PushApi) Push(c *gin.Context) {
 	pushService.DoPush()
 }
