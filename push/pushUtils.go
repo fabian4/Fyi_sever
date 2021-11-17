@@ -4,28 +4,13 @@ import (
 	"fmt"
 	"github.com/fabian4/Fyi_sever/push/config"
 	"github.com/fabian4/Fyi_sever/push/core"
+	"github.com/go-ini/ini"
 	"sync"
 )
 
 const (
-	// private data ,it's import,please don't let it out
-	appId     = "xxxxxx"
-	appSecret = "xxxxxx"
-	token     = "xxxxxx"
-
-	// below is public address
-	// get token address
-	authUrl = "https://login.cloud.huawei.com/oauth2/v2/token"
-	// send push msg address
-	pushUrl = "https://api.push.hicloud.com"
+	token = "IQAAAACy0nMgAACA0d9tunlH0XbgAO4DsBdgFnIbGdy-MHf8Q_IDGcyPi9AJuMG-T1k4sSDQFQTcwdPyvksuzNbRrEk4TRpzJfj9se91eL0VRRkqLQ"
 )
-
-var conf = &config.Config{
-	AppId:     appId,
-	AppSecret: appSecret,
-	AuthUrl:   authUrl,
-	PushUrl:   pushUrl,
-}
 
 var (
 	pushClient *core.HttpPushClient
@@ -48,7 +33,8 @@ var (
 
 func GetPushClient() *core.HttpPushClient {
 	once.Do(func() {
-		client, err := core.NewHttpClient(conf)
+		cfg, _ := ini.Load("config.ini")
+		client, err := core.NewHttpClient(getPushConf(cfg))
 		if err != nil {
 			fmt.Printf("Failed to new common client! Error is %s\n", err.Error())
 			panic(err)
@@ -59,6 +45,11 @@ func GetPushClient() *core.HttpPushClient {
 	return pushClient
 }
 
-func GetPushConf() *config.Config {
-	return conf
+func getPushConf(cfg *ini.File) *config.Config {
+	return &config.Config{
+		AppId:     cfg.Section("push").Key("appId").String(),
+		AppSecret: cfg.Section("push").Key("appSecret").String(),
+		AuthUrl:   cfg.Section("push").Key("authUrl").String(),
+		PushUrl:   cfg.Section("push").Key("pushUrl").String(),
+	}
 }

@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/gin-gonic/gin v1.7.4
+	github.com/go-ini/ini v1.64.0 // indirect
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -17,6 +18,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-replace (
-	github.com/fabian4/Fyi_sever/service => ./service
-)
+replace github.com/fabian4/Fyi_sever/service => ./service
