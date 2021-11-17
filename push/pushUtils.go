@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fabian4/Fyi_sever/push/config"
 	"github.com/fabian4/Fyi_sever/push/core"
+	"github.com/fabian4/Fyi_sever/push/model"
 	"github.com/go-ini/ini"
 	"sync"
 )
@@ -23,6 +24,13 @@ func init() {
 		}
 		Client = client
 	})
+}
+
+func GetSimpleMessage(msg string, detail string, tag string) *model.MessageRequest {
+	msgRequest := model.NewNotificationMsgRequest()
+	msgRequest.Message.Android = model.GetDefaultAndroid()
+	msgRequest.Message.Android.Notification = model.GetAndroidNotification(msg, detail, tag)
+	return msgRequest
 }
 
 func getPushConf(cfg *ini.File) *config.Config {

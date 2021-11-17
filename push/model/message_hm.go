@@ -41,8 +41,7 @@ type AndroidNotification struct {
 	Group             string             `json:"group,omitempty"`
 	Badge             *BadgeNotification `json:"badge,omitempty,omitempty"`
 	Ticker            string             `json:"ticker,omitempty"`
-	AutoCancel        bool               `json:"auto_cancel,omitempty"`
-	when              string             `json:"when,omitempty"`
+	When              string             `json:"when,omitempty"`
 	Importance        string             `json:"importance,omitempty"`
 	UseDefaultVibrate bool               `json:"use_default_vibrate,omitempty"`
 	UseDefaultLight   bool               `json:"use_default_light,omitempty"`
@@ -50,6 +49,7 @@ type AndroidNotification struct {
 	Visibility        string             `json:"visibility,omitempty"`
 	LightSettings     *LightSettings     `json:"light_settings,omitempty"`
 	ForegroundShow    bool               `json:"foreground_show,omitempty"`
+	Buttons           []Button           `json:"buttons,omitempty"`
 }
 
 type ClickAction struct {
@@ -72,6 +72,14 @@ type LightSettings struct {
 	LightOffDuration string `json:"light_off_duration,omitempty"`
 }
 
+type Button struct {
+	Name       string `json:"name"`
+	ActionType int    `json:"action_type"`
+	IntentType int    `json:"intent_type"`
+	Intent     string `json:"intent"`
+	Data       string `json:"data"`
+}
+
 type Color struct {
 	Alpha int `json:"alpha"`
 	Red   int `json:"red"`
@@ -83,31 +91,45 @@ func GetDefaultAndroid() *AndroidConfig {
 	android := &AndroidConfig{
 		Urgency:      config.DeliveryPriorityNormal,
 		TTL:          "86400s",
+		CollapseKey:  -1,
 		Notification: nil,
 	}
 	return android
 }
 
-func GetDefaultAndroidNotification() *AndroidNotification {
+func GetAndroidNotification(msg string, detail string, tag string) *AndroidNotification {
 	notification := &AndroidNotification{
-		DefaultSound: true,
-		Importance:   config.NotificationPriorityDefault,
-		ClickAction:  getDefaultClickAction(),
+		DefaultSound:      true,
+		Importance:        config.NotificationPriorityDefault,
+		ClickAction:       getClickAction(),
+		Body:              detail,
+		Title:             msg,
+		NotifySummary:     tag,
+		UseDefaultVibrate: true,
+		UseDefaultLight:   true,
+		Visibility:        config.VisibilityPrivate,
+		ForegroundShow:    true,
+		Buttons:           getButtons(),
 	}
-
-	notification.UseDefaultVibrate = true
-	notification.UseDefaultLight = true
-	notification.Visibility = config.VisibilityPrivate
-	notification.ForegroundShow = true
-
-	notification.AutoCancel = true
-
 	return notification
 }
 
-func getDefaultClickAction() *ClickAction {
+func getClickAction() *ClickAction {
 	return &ClickAction{
 		Type:   config.TypeIntentOrAction,
 		Action: "Action",
+	}
+}
+
+func getButtons() []Button {
+	return []Button{
+		Button{
+			Name:       "详情",
+			ActionType: 0,
+		},
+		Button{
+			Name:       "已读",
+			ActionType: 3,
+		},
 	}
 }

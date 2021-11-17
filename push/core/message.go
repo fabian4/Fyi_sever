@@ -8,9 +8,6 @@ import (
 	"net/http"
 )
 
-// SendMessage sends a message to huawei cloud common
-// One of Token, Topic and Condition fields must be invoked in message
-// If validationOnly is set to true, the message can be verified by not sent to users
 func (c *HttpPushClient) SendMessage(ctx context.Context, msgRequest *model.MessageRequest) (*model.MessageResponse, error) {
 	result := &model.MessageResponse{}
 
@@ -23,6 +20,10 @@ func (c *HttpPushClient) SendMessage(ctx context.Context, msgRequest *model.Mess
 	if err != nil {
 		return result, err
 	}
+
+	b, _ := json.Marshal(msgRequest)
+	fmt.Println(string(b))
+
 	return result, err
 }
 

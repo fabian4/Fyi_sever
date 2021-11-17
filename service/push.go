@@ -5,17 +5,14 @@ import (
 	"fmt"
 	"github.com/fabian4/Fyi_sever/push"
 	"github.com/fabian4/Fyi_sever/push/config"
-	"github.com/fabian4/Fyi_sever/push/model"
 )
 
 type PushService struct {
 }
 
-func (p *PushService) DoPush() {
-	msgRequest := model.NewNotificationMsgRequest()
-	msgRequest.Message.Token = []string{"IQAAAACy0nMgAACA0d9tunlH0XbgAO4DsBdgFnIbGdy-MHf8Q_IDGcyPi9AJuMG-T1k4sSDQFQTcwdPyvksuzNbRrEk4TRpzJfj9se91eL0VRRkqLQ"}
-	msgRequest.Message.Android = model.GetDefaultAndroid()
-	msgRequest.Message.Android.Notification = model.GetDefaultAndroidNotification()
+func (p *PushService) SinglePush(token string, msg string, detail string, tag string) {
+	msgRequest := push.GetSimpleMessage(msg, detail, tag)
+	msgRequest.Message.Token = []string{token}
 
 	client := push.Client
 

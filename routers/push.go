@@ -8,5 +8,5 @@ import (
 var pushApi = controller.PushApi{}
 
 func InitPushRouter(r *gin.Engine) {
-	r.GET("/", pushApi.Push)
+	r.GET("/:token/push/:tag", pushApi.Push)
 }
