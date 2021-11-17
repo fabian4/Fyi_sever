@@ -5,9 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	auth "github.com/fabian4/Fyi_sever/push/authention"
 	"github.com/fabian4/Fyi_sever/push/config"
-	"github.com/fabian4/Fyi_sever/push/constant"
 	"reflect"
 )
 
@@ -15,7 +13,7 @@ type HttpPushClient struct {
 	endpoint   string
 	appId      string
 	token      string
-	authClient *auth.AuthClient
+	authClient *AuthClient
 	client     *HTTPClient
 }
 
@@ -35,7 +33,7 @@ func NewHttpClient(c *config.Config) (*HttpPushClient, error) {
 		return nil, errors.New("failed to get http client")
 	}
 
-	authClient, err := auth.NewAuthClient(c)
+	authClient, err := NewAuthClient(c)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +132,7 @@ func isTokenError(responsePointer interface{}) (bool, error) {
 	}
 
 	code := val.Elem().FieldByName("Code").String()
-	if code == constant.TokenTimeoutErr || code == constant.TokenFailedErr {
+	if code == config.TokenTimeoutErr || code == config.TokenFailedErr {
 		return true, nil
 	}
 	return false, nil

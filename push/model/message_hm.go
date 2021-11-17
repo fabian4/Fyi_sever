@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/fabian4/Fyi_sever/push/constant"
+	"github.com/fabian4/Fyi_sever/push/config"
 )
 
 type AndroidConfig struct {
@@ -81,7 +81,7 @@ type Color struct {
 
 func GetDefaultAndroid() *AndroidConfig {
 	android := &AndroidConfig{
-		Urgency:      constant.DeliveryPriorityNormal,
+		Urgency:      config.DeliveryPriorityNormal,
 		TTL:          "86400s",
 		Notification: nil,
 	}
@@ -91,13 +91,13 @@ func GetDefaultAndroid() *AndroidConfig {
 func GetDefaultAndroidNotification() *AndroidNotification {
 	notification := &AndroidNotification{
 		DefaultSound: true,
-		Importance:   constant.NotificationPriorityDefault,
+		Importance:   config.NotificationPriorityDefault,
 		ClickAction:  getDefaultClickAction(),
 	}
 
 	notification.UseDefaultVibrate = true
 	notification.UseDefaultLight = true
-	notification.Visibility = constant.VisibilityPrivate
+	notification.Visibility = config.VisibilityPrivate
 	notification.ForegroundShow = true
 
 	notification.AutoCancel = true
@@ -107,7 +107,7 @@ func GetDefaultAndroidNotification() *AndroidNotification {
 
 func getDefaultClickAction() *ClickAction {
 	return &ClickAction{
-		Type:   constant.TypeIntentOrAction,
+		Type:   config.TypeIntentOrAction,
 		Action: "Action",
 	}
 }

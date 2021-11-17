@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/fabian4/Fyi_sever/push/constant"
+	"github.com/fabian4/Fyi_sever/push/config"
 )
 
 type MessageRequest struct {
@@ -98,7 +98,7 @@ func getDefaultMsgRequest() *MessageRequest {
 func GetDefaultApns() *Apns {
 	return &Apns{
 		HmsOptions: &ApnsHmsOptions{
-			TargetUserType: constant.TargetUserTypeTest,
+			TargetUserType: config.TargetUserTypeTest,
 		},
 		Payload: getDefaultApnsPayload(),
 	}

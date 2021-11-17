@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fabian4/Fyi_sever/push"
-	"github.com/fabian4/Fyi_sever/push/constant"
+	"github.com/fabian4/Fyi_sever/push/config"
 	"github.com/fabian4/Fyi_sever/push/model"
 )
 
@@ -27,7 +27,7 @@ func (p *PushService) DoPush() {
 		return
 	}
 
-	if resp.Code != constant.Success {
+	if resp.Code != config.Success {
 		fmt.Printf("Failed to send message! Response is %+v\n", resp)
 		return
 	}

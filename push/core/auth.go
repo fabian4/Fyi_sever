@@ -1,4 +1,4 @@
-package auth
+package core
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fabian4/Fyi_sever/push/config"
-	"github.com/fabian4/Fyi_sever/push/core"
 	"net/http"
 )
 
@@ -14,7 +13,7 @@ type AuthClient struct {
 	endpoint  string
 	appId     string
 	appSecret string
-	client    *core.HTTPClient
+	client    *HTTPClient
 }
 
 type TokenMsg struct {
@@ -33,7 +32,7 @@ func NewAuthClient(conf *config.Config) (*AuthClient, error) {
 		return nil, errors.New("appId or appSecret is null")
 	}
 
-	c, err := core.NewHTTPClient()
+	c, err := NewHTTPClient()
 	if err != nil {
 		return nil, errors.New("failed to get http client")
 	}
@@ -58,11 +57,11 @@ func (ac *AuthClient) GetAuthToken(ctx context.Context) (string, error) {
 	}
 	body := fmt.Sprintf("grant_type=client_credentials&client_secret=%s&client_id=%s", ac.appSecret, ac.appId)
 
-	request := &core.PushRequest{
+	request := &PushRequest{
 		Method: http.MethodPost,
 		URL:    ac.endpoint,
 		Body:   []byte(body),
-		Header: []core.HTTPOption{core.SetHeader("Content-Type", "application/x-www-form-urlencoded")},
+		Header: []HTTPOption{SetHeader("Content-Type", "application/x-www-form-urlencoded")},
 	}
 
 	resp, err := ac.client.DoHttpRequest(ctx, request)

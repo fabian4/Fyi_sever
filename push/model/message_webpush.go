@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/fabian4/Fyi_sever/push/constant"
+	"github.com/fabian4/Fyi_sever/push/config"
 	"time"
 )
 
@@ -56,7 +56,7 @@ func getDefaultHeaders() *WebPushHeaders {
 	return &WebPushHeaders{
 		TTL:     "990",
 		Topic:   "topic",
-		Urgency: constant.UrgencyVeryLow,
+		Urgency: config.UrgencyVeryLow,
 	}
 }
 
@@ -68,7 +68,7 @@ func getDefaultHmsOptions() *HmsWebPushOption {
 
 func GetDefaultWebNotification() *WebPushNotification {
 	return &WebPushNotification{
-		Dir:       constant.DirAuto,
+		Dir:       config.DirAuto,
 		Silent:    true,
 		Timestamp: time.Now().Unix(),
 	}

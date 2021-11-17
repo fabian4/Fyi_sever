@@ -4,9 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/fabian4/Fyi_sever/push/constant"
 	"github.com/fabian4/Fyi_sever/push/model"
-	"github.com/fabian4/Fyi_sever/push/verify"
 	"net/http"
 )
 
@@ -15,11 +13,6 @@ import (
 // If validationOnly is set to true, the message can be verified by not sent to users
 func (c *HttpPushClient) SendMessage(ctx context.Context, msgRequest *model.MessageRequest) (*model.MessageResponse, error) {
 	result := &model.MessageResponse{}
-
-	err := verify.ValidateMessage(msgRequest.Message)
-	if err != nil {
-		return nil, err
-	}
 
 	request, err := c.getSendMsgRequest(msgRequest)
 	if err != nil {
@@ -41,7 +34,7 @@ func (c *HttpPushClient) getSendMsgRequest(msgRequest *model.MessageRequest) (*P
 
 	request := &PushRequest{
 		Method: http.MethodPost,
-		URL:    fmt.Sprintf(constant.SendMessageFmt, c.endpoint, c.appId),
+		URL:    fmt.Sprintf(c.endpoint, c.appId),
 		Body:   body,
 		Header: []HTTPOption{
 			SetHeader("Content-Type", "application/json;charset=utf-8"),
