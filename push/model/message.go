@@ -1,9 +1,5 @@
 package model
 
-import (
-	"github.com/fabian4/Fyi_sever/push/config"
-)
-
 type MessageRequest struct {
 	ValidateOnly bool     `json:"validate_only"`
 	Message      *Message `json:"message"`
@@ -19,11 +15,7 @@ type Message struct {
 	Data         string         `json:"data,omitempty"`
 	Notification *Notification  `json:"notification,omitempty"`
 	Android      *AndroidConfig `json:"android,omitempty"`
-	Apns         *Apns          `json:"apns,omitempty"`
-	WebPush      *WebPushConfig `json:"webpush,omitempty"`
 	Token        []string       `json:"token,omitempty"`
-	Topic        string         `json:"topic,omitempty"`
-	Condition    string         `json:"condition,omitempty"`
 }
 
 type Notification struct {
@@ -32,54 +24,11 @@ type Notification struct {
 	Image string `json:"image,omitempty"`
 }
 
-type Apns struct {
-	Headers    *ApnsHeaders           `json:"headers,omitempty"`
-	Payload    map[string]interface{} `json:"payload,omitempty"`
-	HmsOptions *ApnsHmsOptions        `json:"hms_options,omitempty"`
-}
-
-type ApnsHmsOptions struct {
-	TargetUserType int `json:"target_user_type,omitempty"`
-}
-
-type ApnsHeaders struct {
-	Authorization  string `json:"authorization,omitempty"`
-	ApnsId         string `json:"apns-id,omitempty"`
-	ApnsExpiration int64  `json:"apns-expiration,omitempty"`
-	ApnsPriority   string `json:"apns-priority,omitempty"`
-	ApnsTopic      string `json:"apns-topic,omitempty"`
-	ApnsCollapseId string `json:"apns-collapse-id,omitempty"`
-}
-
-type Aps struct {
-	Alert            interface{} `json:"alert,omitempty"` // dictionary or string
-	Badge            int         `json:"badge,omitempty"`
-	Sound            string      `json:"sound,omitempty"`
-	ContentAvailable int         `json:"content-available,omitempty"`
-	Category         string      `json:"category,omitempty"`
-	ThreadId         string      `json:"thread-id,omitempty"`
-}
-
-type AlertDictionary struct {
-	Title        string   `json:"title,omitempty"`
-	Body         string   `json:"body,omitempty"`
-	TitleLocKey  string   `json:"title-loc-key,omitempty"`
-	TitleLocArgs []string `json:"title-loc-args,omitempty"`
-	ActionLocKey string   `json:"action-loc-key,omitempty"`
-	LocKey       string   `json:"loc-key,omitempty"`
-	LocArgs      []string `json:"loc-args,omitempty"`
-	LaunchImage  string   `json:"launch-image,omitempty"`
-}
-
-//NewTransparentMsgRequest will return a new MessageRequest instance with default value to send transparent message.
-//developers should set at least on of Message.Token or  Message.Topic or Message.Condition
 func NewTransparentMsgRequest() *MessageRequest {
 	msgRequest := getDefaultMsgRequest()
 	return msgRequest
 }
 
-// NewNotificationMsgRequest will return a new MessageRequest instance with default value to send notification message.
-//developers should set at least on of Message.Token or  Message.Topic or Message.Condition
 func NewNotificationMsgRequest() *MessageRequest {
 	msgRequest := getDefaultMsgRequest()
 	msgRequest.Message.Notification = getDefaultNotification()
@@ -93,30 +42,6 @@ func getDefaultMsgRequest() *MessageRequest {
 			Data: "This is a transparent message data",
 		},
 	}
-}
-
-func GetDefaultApns() *Apns {
-	return &Apns{
-		HmsOptions: &ApnsHmsOptions{
-			TargetUserType: config.TargetUserTypeTest,
-		},
-		Payload: getDefaultApnsPayload(),
-	}
-}
-
-func getDefaultApnsPayload() map[string]interface{} {
-	payLoad := make(map[string]interface{}, 0)
-	aps := &Aps{
-		Alert: &AlertDictionary{
-			Title:       "title",
-			Body:        "apns body",
-			TitleLocKey: "PLAY",
-		},
-		Badge: 5,
-	}
-
-	payLoad["aps"] = aps
-	return payLoad
 }
 
 func getDefaultNotification() *Notification {
