@@ -1,11 +1,10 @@
 package service
 
-import "fmt"
+import "github.com/fabian4/Fyi_sever/utils"
 
 type PushService struct {
 }
 
 func (p *PushService) DoPush() {
-	// todo:push方法
-	fmt.Println("start")
+	utils.Post()
 }
